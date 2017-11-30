@@ -1,0 +1,177 @@
+package proto;
+
+//生成认证token请求
+message GenAuthTokenReq {
+    required string Brand = 1; //厂商名
+    required string UUID = 2; //设备或App的唯一标识(建议填唯一标识序列号，也可以填MAC地址)
+    optional uint32 Type = 3; // 0:device; 1: app/web
+}
+
+//生成认证token响应
+message GenAuthTokenRsp {
+    required string Token = 1; //token认证码
+    required int32 code = 2; // 0:成功; -1:失败
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+//token认证请求
+message ValidAuthReq {
+    required string Token = 1; //token认证码
+    required string UUID = 2; //设备或App的唯一标识(建议填唯一标识序列号，也可以填MAC地址)
+}
+
+//token认证响应
+message ValidAuthRsp {
+    required int32 code = 1; // 0:成功; -1:失败
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
+//设置报警事件请求
+message SetEventsReq {
+    required string ReportDevID = 1; //设备或App的唯一标识(建议填唯一标识序列号，也可以填MAC地址)
+    required string EventID = 2; //报警触发的事件ID，后续会根据该ID查找对应的图片和录像文件
+    required string EventTime = 3; //报警触发的时间戳
+    optional string LinkDevID = 4; //该报警设备关联的IPC设备SN号
+    optional uint32 EventType = 5;
+    optional string RecordStartTime = 6; ///录像起始时间
+    optional uint32 EventTimeout = 7; //报警事件超时时间(秒)
+    optional string EventDetail = 8; //报警事件触发原因,如("烟感器触发报警")
+    optional uint32 Duration = 9; //报警触发录像时长(秒)
+    optional string FileName = 10; //每个事件关联存储的文件名
+    optional string RtmpUrl = 11; //事件触发的关联设备推流地址
+}
+
+//设置报警事件响应
+message SetEventsRsp {
+    required int32 code = 1; // 0:成功; -1:失败
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+//获取报警事件
+message GetEventsReq {
+    required string ReportDevID = 1; //设备或App的唯一标识(建议填唯一标识序列号，也可以填MAC地址)
+    optional string EventId = 2; //要获取的事件的ID
+    optional string StartTime = 3; //拉取报警事件的开始时间
+    optional uint32 page = 4; //事件的当前页码 (供翻页操作)
+    optional uint32 limit = 5; //一页显示的事件条数
+}
+
+message GetEventsRsp {
+    required string jsonrsp = 1; // 0:成功; -1:失败
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+//删除报警事件请求
+message DelEventsReq {
+    required string ReportDevID = 1; //设备或App的唯一标识(建议填唯一标识序列号，也可以填MAC地址)
+    optional string StartTime = 2; //需要删除的事件起始时间戳
+    optional string EndTime = 3; //需要删除的事件结束时间戳
+    optional string EventID = 4; //要删除的事件ID
+}
+
+//删除报警事件响应
+message DelEventsRsp {
+    required int32 code = 1; // 0:成功; -1:失败
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+//更新报警事件请求
+message UpdateEventsReq {
+    required string EventID = 1; //报警触发的事件ID，后续会根据该ID查找对应的图片和录像文件
+    required int32 EventStatus = 2; //更新事件的状态
+    optional string Filename = 3; //更新文件名
+}
+
+//设置报警事件响应
+message UpdateEventsRsp {
+    required int32 code = 1; // 0:成功; -1:失败
+}
+///////////////////////////////////////////////////////////////////////////////////////
+//更新报警事件请求
+message UpdateEventsRtmpReq {
+    required string EventID = 1; //报警触发的事件ID，后续会根据该ID查找对应的图片和录像文件
+    optional string rtmp = 2; //更新的rtmp地址
+}
+
+//设置报警事件响应
+message UpdateEventsRtmpRsp {
+    required int32 code = 1; // 0:成功; -1:失败
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+//RtmpAuth 认证请求
+message RtmpAuthReq {
+    required string EventID = 1; //报警触发的事件ID，后续会根据该ID查找对应的图片和录像文件
+    optional string rtmp = 2; //更新的rtmp地址
+}
+
+//RtmpAuth 认证响应
+message RtmpAuthRsp {
+    required int32 code = 1; // 0:成功; -1:失败
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+//存储报警事件文件请求
+message SetEventsFileReq {
+    required string EventID = 1; //事件的ID
+    required bytes FileData = 2; //要存储的事件文件
+    required string FileName = 3; //要存储的文件名
+}
+
+//存储报警事件文件响应
+message SetEventsFileRsp {
+    required int32 code = 1; // 0:成功; -1:失败
+}
+///////////////////////////////////////////////////////////////////////////////////////
+
+//获取报警事件文件请求
+message GetEventsFileReq {
+    required string FileName = 1; //要获取的文件名
+}
+
+//获取报警事件文件响应
+message GetEventsFileRsp {
+    required int32 code = 1; // 0:成功; -1:失败
+    optional bytes FileData = 2; //事件相关文件
+}
+///////////////////////////////////////////////////////////////////////////////////////
+
+//删除报警事件文件请求
+message DelEventsFileReq {
+    required string EventID = 1; //事件的ID
+
+}
+
+//删除报警事件文件响应
+message DelEventsFileRsp {
+    required int32 code = 1; // 0:成功; -1:失败
+}
+///////////////////////////////////////////////////////////////////////////////////////
+
+//转码请求
+message TranscodeReq {
+    required string EventID = 1;
+}
+
+//转码响应
+message TranscodeRsp {
+    required int32 code = 1; // 0:成功; -1:失败
+}
+///////////////////////////////////////////////////////////////////////////////////////
+
+//获取转码任务列表
+message GetTranscodeTaskReq {
+
+}
+
+//获取转码任务列表响应
+message GetTranscodeTaskRsp {
+    required int32 code = 1; // 0:成功; -1:失败
+    optional string tasks = 2; //任务列表
+}

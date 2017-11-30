@@ -1,0 +1,16 @@
+package proto;
+
+enum ErrorCode {
+    SERVER_ERROR = 101; //服务器内部错误
+    AUTH_FAILED = 300; //认证失败
+
+}
+
+enum EventStatus {
+    EVENT_SUCCESS = 2000; //事件成功
+    EVENT_BEGIN = 2001; //事件开始
+    EVENT_TO_MONITOR_SUC = 2002; //发送到Monitor
+    EVENT_UPLOAD_BEGIN = 2003; //文件开始上传
+    EVENT_UPLOAD_SUC = 2004; //文件上传成功
+    EVENT_TRANSCODE_SUC = 2005; //文件转码成功
+}

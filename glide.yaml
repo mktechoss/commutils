@@ -1,0 +1,7 @@
+package: commutils
+import:
+- package: github.com/golang/protobuf
+  subpackages:
+  - proto
+- package: github.com/pkg/errors
+  version: ~0.8.0
